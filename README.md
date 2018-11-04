@@ -22,6 +22,6 @@ Small web app that allows users to build and publicly share lists of favourite m
 
 ### Integration with TMDB
 ### Authors
-- Kovacse Erik Robert
+- Kovacs Erik Robert
 - Frentescu Adela
 - Ganea Raluca
