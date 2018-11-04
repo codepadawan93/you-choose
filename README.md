@@ -12,6 +12,12 @@ Small web app that allows users to build and publicly share lists of favourite m
 
 ## Functional requirements
 ### Entities
+- User
+- Role
+ * admin
+ * userNormal
+- List
+- Movie
 
 ### Possible user actions
 
