@@ -1,4 +1,3 @@
-
 # YouChoose - choose your favourite movies!
 
 ### ASE Web Technologies Project
@@ -14,20 +13,37 @@ Small web app that allows users to build and publicly share lists of favourite m
 ### Entities
 - User
 - Role
- * admin
- * userNormal
+  - Admin
+  - Normal User
 - List
 - Movie
 
 ### Possible user actions
 
+Normal User
+- Create account
+- Log in
+- Search for Movie
+- Create List
+- Add, Modify, Delete Movies in List
+- Share
+
+Admin 
+- + Normal User
+- Add Add, Modify, Delete User
+
 ### Technologies used
 *Database*
+- MySQL
+
 *Backend*
+- NodeJS
+
 *Frontend*
+- React
 
 ### Integration with TMDB
+- To be implemented
+
 ### Authors
 - Kovacs Erik Robert
-- Frentescu Adela
-- Ganea Raluca
