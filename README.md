@@ -47,4 +47,4 @@ Admin
 
 ### Authors
 - Kovacs Erik Robert
--Frentescu Adela
+
