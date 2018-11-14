@@ -29,21 +29,21 @@ Normal User
 - Share
 
 Admin 
-- + Normal User
-- Add Add, Modify, Delete User
+- Everything a Normal User can do
+- Add, Modify, Delete Users from DB
 
 ### Technologies used
-*Database*
+Database
 - MySQL
 
-*Backend*
-- NodeJS
+Backend
+- NodeJS with Express
 
-*Frontend*
-- React
+Frontend
+- React JS
 
 ### Integration with TMDB
-- To be implemented
+- To be implemented, documentation available at [TMDB](https://www.themoviedb.org/documentation/api?language=en-US)
 
 ### Authors
 - Kovacs Erik Robert
