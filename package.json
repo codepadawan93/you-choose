@@ -1,0 +1,25 @@
+{
+  "name": "you-choose",
+  "version": "1.0.0",
+  "description": "App for movie lists",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codepadawan93/you-choose.git"
+  },
+  "keywords": [
+    "movies"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codepadawan93/you-choose/issues"
+  },
+  "homepage": "https://github.com/codepadawan93/you-choose#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

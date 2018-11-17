@@ -45,6 +45,30 @@ Frontend
 ### Integration with TMDB
 - To be implemented, documentation available at [TMDB](https://www.themoviedb.org/documentation/api?language=en-US)
 
+### Database structure
+- User
+  - user_id
+  - user_name
+  - password
+  - firstname
+  - lastname
+  - role_id
+    
+- Role
+  - role_id
+  - role_name
+
+- Movie
+  - movie_id
+  - tmdb_guid
+  - *to be decided once we see what is available in tmdb
+
+- List
+  - list_id
+  - user_id
+  - movie_id
+  - personal_rating
+
 ### Authors
 - Kovacs Erik Robert
 - Ganea Raluca
