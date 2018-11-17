@@ -47,4 +47,5 @@ Frontend
 
 ### Authors
 - Kovacs Erik Robert
+- Ganea Raluca
 
