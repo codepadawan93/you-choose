@@ -4,6 +4,9 @@
   "description": "App for movie lists",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "start-dev": "nodemon index.js",
+    "migrate": "echo \"not yet implemented\" && exit 1",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +24,8 @@
   "homepage": "https://github.com/codepadawan93/you-choose#readme",
   "dependencies": {
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
   }
 }

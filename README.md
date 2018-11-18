@@ -3,6 +3,17 @@
 ### ASE Web Technologies Project
 Small web app that allows users to build and publicly share lists of favourite movies. 
 
+### Usage
+#### Installation
+1. Install dependencies:
+```bash
+npm install
+```
+2. Run in development mode:
+```bash
+npm run start-dev
+```
+
 ## General requirements
 1. At least four entities of which one is parent and one is  a child, stored in a relational database and accessed through an ORM
 2. Operations on the entities exposed through a REST interface
