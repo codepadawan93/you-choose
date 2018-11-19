@@ -5,11 +5,15 @@ Small web app that allows users to build and publicly share lists of favourite m
 
 ### Usage
 #### Installation
-1. Install dependencies:
+1. Clone this repo:
+```bash
+git clone https://github.com/codepadawan93/you-choose.git
+```
+2. Install dependencies:
 ```bash
 npm install
 ```
-2. Run in development mode:
+3. Run in development mode:
 ```bash
 npm run start-dev
 ```
