@@ -49,7 +49,7 @@ Admin
 
 ### Technologies used
 Database
-- MySQL
+- MySQL accessed through Sequelize
 
 Backend
 - NodeJS with Express
