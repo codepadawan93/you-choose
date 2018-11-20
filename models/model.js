@@ -1,11 +1,10 @@
+// Base class we will use for interacting with the database
 class Model {
-    constructor(id = 0){
-        this.id = id;
-    }
+    constructor(){}
     insert(){}
     update(){}
-    select(){}
     delete(){}
-    json(){}
+    toJson(){}
     toString(){}
+    toHash(){}
 }
