@@ -1,9 +1,22 @@
-const server = require('express')();
+// Load environment variables
+const env = require('dotenv').load();
 
+// Load Express
+const server = require('express')();
+const bodyParser = require('body-parser');
+const port = process.env.PORT || 8080;
+
+// Use the body parser middleware
+server.use(bodyParser.json());
+
+// Respond to requests
 server.get('*', (req, res) => {
-    res.end("Hello world");
+    console.log(req.body);
+    res.json({message: "Hello World", success: true});
 });
 
-server.listen(8080, function(){
-    console.log("Server started on host [%s], port [%s]", this.address().address, this.address().port);
+// Start the server
+server.listen(port, function(){
+    const { address } = this.address();
+    console.log(`Server started on host [${address}], port [${port}]`);
 });
