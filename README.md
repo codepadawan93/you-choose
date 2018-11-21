@@ -13,7 +13,12 @@ git clone https://github.com/codepadawan93/you-choose.git
 ```bash
 npm install
 ```
-3. Run in development mode:
+3. Navigate to ```config/config.json``` and change the values to connect to your database. Afterwards run migrations:
+```bash
+npm run migrate
+``` 
+
+4. Run app in development mode:
 ```bash
 npm run start-dev
 ```
