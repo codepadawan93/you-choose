@@ -22,6 +22,7 @@ npm run migrate
 ```bash
 npm run start-dev
 ```
+5. Navigate to [http://localhost:8080](http://localhost:8080) and share your movies with your friends!
 
 ## General requirements
 1. At least four entities of which one is parent and one is  a child, stored in a relational database and accessed through an ORM
