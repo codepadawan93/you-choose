@@ -31,9 +31,9 @@ npm run start-dev
 4. External service integration
 
 ## Phases
-I. Detailed specifications, project description, presence of a git project - delivered after tutorial 5
-II. Functional RESTful service present in the repository + instructions to run said sevice - delivered after tutorial 9
-III. Complete application - deliveded in the last tutorial (demo)
+1. Detailed specifications, project description, presence of a git project - delivered after tutorial 5
+2. Functional RESTful service present in the repository + instructions to run said sevice - delivered after tutorial 9
+3. Complete application - deliveded in the last tutorial (demo)
 
 ## Functional requirements
 ### Entities
