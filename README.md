@@ -30,6 +30,11 @@ npm run start-dev
 3. SPA front-end with React.js
 4. External service integration
 
+## Phases
+I. Detailed specifications, project description, presence of a git project - delivered after tutorial 5
+II. Functional RESTful service present in the repository + instructions to run said sevice - delivered after tutorial 9
+III. Complete application - deliveded in the last tutorial (demo)
+
 ## Functional requirements
 ### Entities
 - User
