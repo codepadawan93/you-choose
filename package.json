@@ -4,6 +4,8 @@
   "description": "App for movie lists",
   "main": "index.js",
   "scripts": {
+    "install": "npm install && cd client && npm install",
+    "build": "cd client && npm run build",
     "start": "node index.js",
     "start-dev": "nodemon index.js",
     "migrate": "node_modules/.bin/sequelize db:migrate",
