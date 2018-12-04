@@ -4,7 +4,7 @@
   "description": "App for movie lists",
   "main": "index.js",
   "scripts": {
-    "install": "npm install && cd client && npm install",
+    "install": "npm install",
     "build": "cd client && npm run build",
     "start": "node index.js",
     "start-dev": "nodemon index.js",

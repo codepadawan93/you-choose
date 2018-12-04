@@ -179,8 +179,23 @@ Frontend
 
 - Movie
   - movie_id
-  - tmdb_guid
-  - *to be decided once we see what is available in tmdb
+  - cmdb_guid:integer
+  - budget:number
+  - genres:string
+  - homepage:string
+  - imdb_id:string
+  - original_language:string
+  - overview:text
+  - popularity:number
+  - poster_path:string
+  - release_date:string
+  - revenue:number
+  - runtime:number
+  - status:string
+  - tagline:string
+  - title:string
+  - vote_average:number
+  - vote_count:number
 
 - List
   - list_id
