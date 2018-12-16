@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Movies', {
+    return queryInterface.createTable("Movies", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,13 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       movie_id: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       tmdb_guid: {
         type: Sequelize.INTEGER
       },
       budget: {
-        type: Sequelize.NUMBER
+        type: Sequelize.FLOAT
       },
       genres: {
         type: Sequelize.STRING
@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       popularity: {
-        type: Sequelize.NUMBER
+        type: Sequelize.FLOAT
       },
       poster_path: {
         type: Sequelize.STRING
@@ -42,10 +42,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       revenue: {
-        type: Sequelize.NUMBER
+        type: Sequelize.FLOAT
       },
       runtime: {
-        type: Sequelize.NUMBER
+        type: Sequelize.FLOAT
       },
       status: {
         type: Sequelize.STRING
@@ -57,10 +57,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       vote_average: {
-        type: Sequelize.NUMBER
+        type: Sequelize.FLOAT
       },
       vote_count: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -73,6 +73,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Movies');
+    return queryInterface.dropTable("Movies");
   }
 };

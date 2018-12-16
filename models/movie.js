@@ -1,25 +1,29 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Movie = sequelize.define('Movie', {
-    movie_id: DataTypes.NUMBER,
-    tmdb_guid: DataTypes.INTEGER,
-    budget: DataTypes.NUMBER,
-    genres: DataTypes.STRING,
-    homepage: DataTypes.STRING,
-    imdb_id: DataTypes.STRING,
-    original_language: DataTypes.STRING,
-    overview: DataTypes.TEXT,
-    popularity: DataTypes.NUMBER,
-    poster_path: DataTypes.STRING,
-    release_date: DataTypes.STRING,
-    revenue: DataTypes.NUMBER,
-    runtime: DataTypes.NUMBER,
-    status: DataTypes.STRING,
-    tagline: DataTypes.STRING,
-    title: DataTypes.STRING,
-    vote_average: DataTypes.NUMBER,
-    vote_count: DataTypes.NUMBER
-  }, {});
+  const Movie = sequelize.define(
+    "Movie",
+    {
+      movie_id: DataTypes.INTEGER,
+      tmdb_guid: DataTypes.INTEGER,
+      budget: DataTypes.FLOAT,
+      genres: DataTypes.STRING,
+      homepage: DataTypes.STRING,
+      imdb_id: DataTypes.STRING,
+      original_language: DataTypes.STRING,
+      overview: DataTypes.TEXT,
+      popularity: DataTypes.FLOAT,
+      poster_path: DataTypes.STRING,
+      release_date: DataTypes.STRING,
+      revenue: DataTypes.FLOAT,
+      runtime: DataTypes.FLOAT,
+      status: DataTypes.STRING,
+      tagline: DataTypes.STRING,
+      title: DataTypes.STRING,
+      vote_average: DataTypes.FLOAT,
+      vote_count: DataTypes.INTEGER
+    },
+    {}
+  );
   Movie.associate = function(models) {
     // associations can be defined here
   };
