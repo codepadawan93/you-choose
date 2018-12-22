@@ -5,14 +5,16 @@ module.exports = (sequelize, DataTypes) => {
     {
       list_id: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        primaryKey: true,
+        required: true,
+        type: DataTypes.INTEGER
       },
       user_id: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
       personal_rating: {
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       }
     },
     {}

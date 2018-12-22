@@ -7,28 +7,28 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
       user_name: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         unique: true,
         required: true,
         allowNull: false
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         required: true,
         allowNull: false,
         len: [8, 21]
       },
       firstname: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       lastname: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       role_id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         required: true,
         allowNull: false
       }

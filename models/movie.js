@@ -7,70 +7,70 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
       tmdb_guid: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         required: true,
         allowNull: false
       },
       budget: {
-        type: Sequelize.FLOAT
+        type: DataTypes.FLOAT
       },
       genres: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         required: true,
         allowNull: false
       },
       homepage: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       imdb_id: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       original_language: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       overview: {
-        type: Sequelize.TEXT,
+        type: DataTypes.TEXT,
         required: true,
         allowNull: false
       },
       popularity: {
-        type: Sequelize.FLOAT
+        type: DataTypes.FLOAT
       },
       poster_path: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         required: true
       },
       release_date: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       revenue: {
-        type: Sequelize.FLOAT
+        type: DataTypes.FLOAT
       },
       runtime: {
-        type: Sequelize.FLOAT
+        type: DataTypes.FLOAT
       },
       status: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       tagline: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         required: true,
         allowNull: false
       },
       title: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         required: true,
         allowNull: false
       },
       vote_average: {
-        type: Sequelize.FLOAT
+        type: DataTypes.FLOAT
       },
       vote_count: {
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       }
     },
     {}

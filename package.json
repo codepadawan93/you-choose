@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/codepadawan93/you-choose#readme",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "mysql2": "^1.6.4",

@@ -3,13 +3,19 @@ module.exports = (sequelize, DataTypes) => {
   const ListItem = sequelize.define(
     "ListItem",
     {
+      list_item_id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
       list_id: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
       movie_id: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
       personal_rating: DataTypes.INTEGER
     },

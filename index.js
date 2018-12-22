@@ -5,6 +5,7 @@ const env = require("dotenv").load();
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 const server = express();
 const port = process.env.PORT || 8080;
@@ -15,80 +16,111 @@ server.use(bodyParser.json());
 // Serve static assets from ./client
 server.use(express.static(path.join(__dirname, "client/build")));
 
-// Load models
-const { User, List, Role, Movie } = require("./models/index");
+// Load Models (User, Role, List, ListItem, Movie)
+const models = require("./models/index");
 
-// Respond to API GET calls - simple router
-server.get(["/api/:route/", "/api/:route/:id"], (req, res) => {
-  // We need the route and the id
-  const { route, id } = req.params;
-  switch (route) {
-    case "users":
-      if (id) {
-        User.findAll({ where: { user_id: id } }).then(data => {
-          res.json({ data, success: true });
-        });
-      } else {
-        User.findAll().then(data => {
-          res.json({ data, success: true });
-        });
-      }
-      break;
-    case "movie":
-      if (id) {
-        Movie.findAll({ where: { movie_id: id } }).then(data => {
-          res.json({ data, success: true });
-        });
-      } else {
-        Movie.findAll().then(data => {
-          res.json({ data, success: true });
-        });
-      }
-      break;
-    case "list":
-      if (id) {
-        List.findAll({ where: { list_id: id } }).then(data => {
-          res.json({ data, success: true });
-        });
-      } else {
-        List.findAll().then(data => {
-          res.json({ data, success: true });
-        });
-      }
-      break;
+// Create routers for all Models
+const routers = [
+  {
+    route: "/api/users",
+    modelName: "User"
+  },
+  {
+    route: "/api/roles",
+    modelName: "Role"
+  },
+  {
+    route: "/api/lists",
+    modelName: "List"
+  },
+  {
+    route: "/api/list_items",
+    modelName: "ListItem"
+  },
+  {
+    route: "/api/movies",
+    modelName: "Movie"
   }
-});
+];
 
-// POST calls
-// Respond to API GET calls - simple router
-server.post(["/api/:route/", "/api/:route/:id"], (req, res) => {
-  const { route, id } = req.params;
+routers.forEach(routerObject => {
+  // A GET to the root of a resource returns a list of that resource
+  const { modelName, route } = routerObject;
+  const pkColumn = modelName.toLowerCase() + "_id";
+  const findOneQuery = {};
 
-  switch (route) {
-    case "users":
-      // TODO:: we should validate really
-      if (id) {
-        User.findOne(id).then(user => {
-          user
-            .update(req.body)
-            .then(data => res.json({ data: [user], success: true }));
-        });
-      } else {
-        const user = User.build(req.body);
-        user.save().then(data => res.json({ data: [user], success: true }));
+  const router = express.Router();
+  router.get("/", function(req, res) {
+    models[modelName].findAll().then(data => {
+      if (!data) {
+        res.json(404, { data: [], success: false });
+        return;
       }
-      break;
-    case "movie":
-      if (id) {
-      } else {
+      res.json({ data, success: true });
+    });
+  });
+
+  // A POST to the root of a resource should create a new object
+  router.post("/", (req, res) => {
+    const modelInstance = models[modelName].build(req.body);
+    if (modelName === "User") {
+      const hash = bcrypt.hashSync(
+        modelInstance.password,
+        process.env.SALT_ROUNDS || 5
+      );
+      modelInstance.password = hash;
+    }
+    modelInstance
+      .save()
+      .then(data => res.json({ data: [modelInstance], success: true }))
+      .catch(err => res.json({ err, success: false }));
+  });
+
+  // We specify a param in our path for the GET of a specific object
+  router.get("/:id", (req, res) => {
+    findOneQuery[pkColumn] = req.params.id;
+    models[modelName].findOne({ where: findOneQuery }).then(data => {
+      if (!data) {
+        res.json(404, { data: [], success: false });
+        return;
       }
-      break;
-    case "list":
-      if (id) {
-      } else {
+      res.json({ data: [data], success: true });
+    });
+  });
+
+  // Similar to the GET on an object, to update it we can PATCH
+  router.patch("/:id", (req, res) => {
+    findOneQuery[pkColumn] = req.params.id;
+    models[modelName].findOne({ where: findOneQuery }).then(modelInstance => {
+      if (!data) {
+        res.json(404, { data: [], success: false });
+        return;
       }
-      break;
-  }
+      modelInstance
+        .update(req.body)
+        .then(data => res.json({ data: [modelInstance], success: true }))
+        .catch(err => res.json({ err, success: false }));
+    });
+  });
+
+  // Delete a specific object
+  router.delete("/:id", (req, res) => {
+    findOneQuery[pkColumn] = req.params.id;
+    models[modelName]
+      .findOne({ where: findOneQuery })
+      .delete()
+      .then(data => {
+        if (!data) {
+          res.json(404, { data: [], success: false });
+          return;
+        }
+        res.json({ data: [modelInstance], success: true });
+      })
+      .catch(err => res.json({ err, success: false }));
+  });
+
+  // Attach the routers for their respective paths
+  server.use(route, router);
 });
 
 // Reroute everything else to React app in client
