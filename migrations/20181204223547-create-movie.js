@@ -2,23 +2,24 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("Movies", {
-      id: {
+      movie_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      movie_id: {
-        type: Sequelize.INTEGER
-      },
       tmdb_guid: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        required: true,
+        allowNull: false
       },
       budget: {
         type: Sequelize.FLOAT
       },
       genres: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false
       },
       homepage: {
         type: Sequelize.STRING
@@ -30,13 +31,17 @@ module.exports = {
         type: Sequelize.STRING
       },
       overview: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        required: true,
+        allowNull: false
       },
       popularity: {
         type: Sequelize.FLOAT
       },
       poster_path: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        required: true
       },
       release_date: {
         type: Sequelize.STRING
@@ -51,10 +56,14 @@ module.exports = {
         type: Sequelize.STRING
       },
       tagline: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false
       },
       vote_average: {
         type: Sequelize.FLOAT

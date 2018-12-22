@@ -3,8 +3,16 @@ module.exports = (sequelize, DataTypes) => {
   const Role = sequelize.define(
     "Role",
     {
-      role_id: DataTypes.INTEGER,
-      role_name: DataTypes.STRING
+      role_id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      role_name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      }
     },
     {}
   );

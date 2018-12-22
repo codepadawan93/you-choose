@@ -1,16 +1,20 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Lists", {
-      list_id: {
+    return queryInterface.createTable("ListItems", {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+      list_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      movie_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       personal_rating: {
         type: Sequelize.INTEGER
@@ -26,6 +30,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Lists");
+    return queryInterface.dropTable("ListItems");
   }
 };

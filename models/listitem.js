@@ -1,24 +1,22 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const List = sequelize.define(
-    "List",
+  const ListItem = sequelize.define(
+    "ListItem",
     {
       list_id: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      movie_id: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      personal_rating: {
-        type: Sequelize.INTEGER
-      }
+      personal_rating: DataTypes.INTEGER
     },
     {}
   );
-  List.associate = function(models) {
+  ListItem.associate = function(models) {
     // associations can be defined here
   };
-  return List;
+  return ListItem;
 };
