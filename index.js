@@ -44,12 +44,12 @@ const routers = [
 ];
 
 routers.forEach(routerObject => {
-  // A GET to the root of a resource returns a list of that resource
+  // Build the necessary column name
   const { modelName, route } = routerObject;
   const pkColumn = modelName.toLowerCase() + "_id";
-  const findOneQuery = {};
 
   const router = express.Router();
+  // A GET to the root of a resource returns a list of that resource
   router.get("/", function(req, res) {
     models[modelName].findAll().then(data => {
       if (!data) {
@@ -78,36 +78,37 @@ routers.forEach(routerObject => {
 
   // We specify a param in our path for the GET of a specific object
   router.get("/:id", (req, res) => {
-    findOneQuery[pkColumn] = req.params.id;
-    models[modelName].findOne({ where: findOneQuery }).then(data => {
-      if (!data) {
-        res.json(404, { data: [], success: false });
-        return;
-      }
-      res.json({ data: [data], success: true });
-    });
+    models[modelName]
+      .findOne({ where: { [pkColumn]: req.params.id } })
+      .then(data => {
+        if (!data) {
+          res.json(404, { data: [], success: false });
+          return;
+        }
+        res.json({ data: [data], success: true });
+      });
   });
 
   // Similar to the GET on an object, to update it we can PATCH
   router.patch("/:id", (req, res) => {
-    findOneQuery[pkColumn] = req.params.id;
-    models[modelName].findOne({ where: findOneQuery }).then(modelInstance => {
-      if (!data) {
-        res.json(404, { data: [], success: false });
-        return;
-      }
-      modelInstance
-        .update(req.body)
-        .then(data => res.json({ data: [modelInstance], success: true }))
-        .catch(err => res.json({ err, success: false }));
-    });
+    models[modelName]
+      .findOne({ where: { [pkColumn]: req.params.id } })
+      .then(modelInstance => {
+        if (!data) {
+          res.json(404, { data: [], success: false });
+          return;
+        }
+        modelInstance
+          .update(req.body)
+          .then(data => res.json({ data: [modelInstance], success: true }))
+          .catch(err => res.json({ err, success: false }));
+      });
   });
 
   // Delete a specific object
   router.delete("/:id", (req, res) => {
-    findOneQuery[pkColumn] = req.params.id;
     models[modelName]
-      .findOne({ where: findOneQuery })
+      .findOne({ where: { [pkColumn]: req.params.id } })
       .delete()
       .then(data => {
         if (!data) {

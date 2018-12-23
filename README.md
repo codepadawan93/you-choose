@@ -8,21 +8,153 @@ Small web app that allows users to build and publicly share lists of favourite m
 1. Clone this repo:
 ```bash
 git clone https://github.com/codepadawan93/you-choose.git
+
+cd you-choose
 ```
 2. Install dependencies:
 ```bash
 npm install
 ```
-3. Navigate to ```config/config.json``` and change the values to connect to your database. Afterwards run migrations:
+3. Navigate to ```config/config.json``` and change the values to connect to your database. Alternatively, set up a user and database using the deafaults found in the JSON file. Afterwards run migrations:
 ```bash
 npm run migrate
 ``` 
+This will set up all tables that the app needs.
 
 4. Run app in development mode:
 ```bash
 npm run start-dev
 ```
 5. Navigate to [http://localhost:8080](http://localhost:8080) and share your movies with your friends!
+
+## API Documentation
+### Users
+``` GET /api/users ```
+Returns a list of users
+
+``` GET /api/users/id ```
+Returns a single user with user_id = id or a 404 status code if provided id does not match any user
+
+``` POST /api/users ```
+The request body has to have header ``` Content-Type: application/json``` set and respect the following schema:
+```json
+{
+    "user_name": "ekovacs",
+    "password": "password123",
+    "firstname": "Erik",
+    "lastname": "Kovacs",
+    "role_id": 1
+}
+```
+
+``` PUT /api/users/id ```
+Updates the user with user_id = id. Returns a 404 status code if it is not present. The request body has to have header ``` Content-Type: application/json``` set and respect the schema specified above.
+
+``` DELETE /api/users/id ```
+Deletes the user with user_id = id. Returns a 404 status code if it is not present. 
+
+### Roles
+``` GET /api/roles ```
+Returns a list of roles
+
+``` GET /api/roles/id ```
+Returns a single role with user_id = id or a 404 status code if provided id does not match any role
+
+``` POST /api/roles ```
+The request body has to have header ``` Content-Type: application/json``` set and respect the following schema:
+```json
+{
+    "role_name": "admin"
+}
+```
+
+``` PUT /api/roles/id ```
+Updates the role with role_id = id. Returns a 404 status code if it is not present. The request body has to have header ``` Content-Type: application/json``` set and respect the schema specified above.
+
+``` DELETE /api/roles/id ```
+Deletes the role with role_id = id. Returns a 404 status code if it is not present. 
+
+### Lists
+``` GET /api/lists ```
+Returns a list of lists (as in lists of movies defined by users)
+
+``` GET /api/lists/id ```
+Returns a single list with list_id = id or a 404 status code if provided id does not match any list
+
+``` POST /api/lists ```
+The request body has to have header ``` Content-Type: application/json``` set and respect the following schema:
+```json
+{
+    "user_id" : 1,
+    "personal_rating" : 0
+}
+```
+
+``` PUT /api/lists/id ```
+Updates the list with list_id = id. Returns a 404 status code if it is not present. The request body has to have header ``` Content-Type: application/json``` set and respect the schema specified above.
+
+``` DELETE /api/lists/id ```
+Deletes the list with list_id = id. Returns a 404 status code if it is not present. 
+
+### List Items
+``` GET /api/list_items ```
+Returns a list of list items
+
+``` GET /api/list_items/id ```
+Returns a single list item with list_item_id = id or a 404 status code if provided id does not match any list item
+
+``` POST /api/list_items ```
+The request body has to have header ``` Content-Type: application/json``` set and respect the following schema:
+```json
+{
+	"list_id": 1,
+	"movie_id" : 2,
+	"personal_rating": 3
+}
+```
+
+``` PUT /api/list_items/id ```
+Updates the list item with list_item_id = id. Returns a 404 status code if it is not present. The request body has to have header ``` Content-Type: application/json``` set and respect the schema specified above.
+
+``` DELETE /api/list_items/id ```
+Deletes the list item with list_item_id = id. Returns a 404 status code if it is not present. 
+
+### Movies
+``` GET /api/movies ```
+Returns a list of movies
+
+``` GET /api/movies/id ```
+Returns a single movie with movie_id = id or a 404 status code if provided id does not match any movie
+
+``` POST /api/movies ```
+The request body has to have header ``` Content-Type: application/json``` set and respect the following schema:
+```json
+{
+    "tmdb_guid" : 550,
+    "budget" : 63000000,
+    "genres" : "Drama",
+    "homepage" : "http://www.foxmovies.com/movies/fight-club",
+    "imdb_id" : "tt0137523",
+    "original_language" : "en",
+    "overview": "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
+    "popularity": 21.879,
+    "poster_path": "/adw6Lq9FiC9zjYEpOqfq03ituwp.jpg",
+    "release_date": "1999-10-15",
+    "revenue": 100853753,
+    "runtime": 139,
+    "status" : "released",
+    "tagline" : "Mischief. Mayhem. Soap.",
+    "title" : "Fight Club",
+    "vote_average": 8.4,
+    "vote_count": 14239
+}
+```
+
+``` PUT /api/movies/id ```
+Updates the movie with movie_id = id. Returns a 404 status code if it is not present. The request body has to have header ``` Content-Type: application/json``` set and respect the schema specified above.
+
+``` DELETE /api/movies/id ```
+Deletes the movie with movie_id = id. Returns a 404 status code if it is not present. 
 
 ## General requirements
 1. At least four entities of which one is parent and one is  a child, stored in a relational database and accessed through an ORM
@@ -42,6 +174,7 @@ npm run start-dev
   - Admin
   - Normal User
 - List
+  - List Item
 - Movie
 
 ### Possible user actions
@@ -200,6 +333,11 @@ Frontend
 - List
   - list_id
   - user_id
+  - personal_rating
+
+- List item 
+  - list_item_id
+  - list_id
   - movie_id
   - personal_rating
 
