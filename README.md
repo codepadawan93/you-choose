@@ -341,6 +341,74 @@ Frontend
   - movie_id
   - personal_rating
 
+### View Hierarchy
+1. Back end (Administration) :
+1.1. User List View (Table with each row taking you to the respective user). Columns viewable:
+    1. user_id
+    2. user_name
+    3. firstname
+    4. lastname
+    5. role (join w/ roles to get role_name)
+    6. created_at
+    7. updated_at
+1.2. Create/Edit/Delete User (Form allowing you to modify current user). Fields available:
+    1. user_id - read-only number input
+    2. user_name - text input, required
+    3. password - password input, shows random string when viewing, required
+    3. firstname - text input
+    4. lastname - text input
+    5. role (join w/ roles to get role_name) - select box, required, lists available roles.
+    
+    Buttons: Submit, Save, Back, Delete
+
+1.3. Role List view (Table with each row taking you to the respective role). Columns:
+    1. role_id
+    2. role_name
+    3. created_at
+    4. updated_at
+
+1.4. Create/Edit/Delete Role (Form allowing you to modify current role). Fields available:
+    1. role_id - read-only number input
+    2. role_name - text input, required
+    
+    Buttons: Submit, Save, Back, Delete
+
+1.5. Lists list view (Table with each row taking you to the respective list). Columns: 
+    1. list_id
+    2. user (Join w/ users to get name)
+    3. personal_rating - percentage filled out of 5 stars
+    4. created_at
+    5. updated_at
+
+1.6. Create/Edit/Delete List (Form allowing you to modify current List). Fields available:
+    1. list_id - read-only number input
+    2. related list of list items contained in the list, together with the movies' names 
+    3. A search field that can add movies to the list as list items
+    4. Upon selection of a movie, a personal_rating field appears to allow one to rate the movie
+    3. personal_rating - 5 stars that can be selected - TBD
+    
+    Buttons: Submit, Save, Back, Delete
+
+1.7. List items and Movies cannot be directly created, so no forms should exist for them.
+
+2. Front end
+2.1. Login form: username and password, Buttons: Login, Sign Upon
+
+2.2. Sign Up Form:
+    1. user_name - text input, required
+    2. password - password input, shows random string when viewing, required
+    3. firstname - text input
+    4. lastname - text input
+    Role will always be standard_user as Admins should not be able to sign up normally.
+
+2.3. Landing page: standard bootstrap landing page template, TBD. Buttons: Log In, Sign up, See lists
+
+2.4. Lists List View (Front) - a fancier version of the list view from the back-end. Shows the image of the first movie in the list as a thumbnail or something. Only shows the user's name, maybe should add List Name to model? TBD
+
+2.5. Movie List View: The actual list. User name and a list of movies inside bootstrap cards or something: title, tagline, poster photo, personal rating.
+
+2.6. Movie Detail View: shows details about movie when clicked: budget, genres, link to homepage, overview, the poster as image, release date, tagline, title, personal rating (read-only) etc.
+
 ### Authors
 - Kovacs Erik Robert
 - Ganea Raluca
