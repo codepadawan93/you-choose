@@ -2,6 +2,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import $ from "jquery";
 // import Popper from "popper";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import "./css/backend.min.css";
+import "./css/frontpage.min.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -14,3 +16,4 @@ ReactDOM.render(<App />, document.getElementById("root"));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
