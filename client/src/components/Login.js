@@ -1,8 +1,92 @@
 import React, { Component } from "react";
+import {Link} from "react-router-dom";
+import Navbar from "./Navbar";
 
 class Login extends Component {
+  ERROR_TIMEOUT = 5000;
+  constructor(){
+    super();
+    this.state = {
+      userData: {
+        userName: "",
+        pass: ""
+      }, 
+      errors: []
+    };
+  }
   render() {
-    return <h2>Login</h2>;
+    return (
+      <div className="container">
+        <Navbar color="navbar-dark" type=""/>
+        {this.showErrors()}
+        <div>
+            <form>
+                <h2>Log in</h2>
+                <div className="form-group row">
+                  <label htmlFor="userName" className="col-md-2 col-form-label">Username: </label>
+                  <div className="col-md-10">
+                    <input type="text" name="userName" className="form-control" value={this.state.userData.userName} onChange={e => this.updateUserData(e)}/>
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <label htmlFor="pass" className="col-md-2 col-form-label">Password: </label>
+                  <div className="col-md-10">
+                    <input type="password" name="pass" className="form-control" value={this.state.userData.pass} onChange={e => this.updateUserData(e)}/>
+                  </div>
+                </div>
+                <button id="btn_login" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>Login</button>
+                <Link className="btn btn-primary" to="/signup">Sign up</Link>
+            </form>
+        </div>
+      </div>
+    );
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    if(this.validateUser()){
+    }
+  }
+
+  validateUser(){
+    const {userName, pass} = this.state.userData;
+    let errors = [];
+    let valid = true;
+    if(userName === ""){
+      errors.push('Username must be filled out!');
+      valid = false;
+    }
+    if(pass === "" || pass.length < 6){
+      errors.push('the password shoud exist and be at least 6 characters long');
+      valid = false;
+    }
+    this.setErrors(errors);
+    setTimeout(() => this.resetErrors(), this.ERROR_TIMEOUT);
+    return valid;
+  }
+
+  updateUserData = e => {
+    this.setState({
+      userData: {...this.state.userData, [e.target.name] : e.target.value}}
+    );
+  }
+
+  setErrors = errors => {
+    this.setState({ errors });
+  }
+
+  resetErrors = () => {
+    this.setState({ errors: []});
+  }
+
+  showErrors = () => {
+    return this.state.errors.map((error, itemKey) => {
+      return (
+        <div className="alert alert-danger" role="alert" key={itemKey}>
+          {error}
+        </div>
+      );
+    })
   }
 }
 export default Login;

@@ -121,3 +121,11 @@
     }
   }
   
+i {
+  font-family: 'FontAwesome' !important;
+}
+
+.sidebar-toggle {
+  padding: 0.4rem 0.4rem 0.4rem 0.4rem;
+  margin-left: 13px;
+}

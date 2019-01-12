@@ -1,31 +1,15 @@
 import React, { Component } from "react";
-
+import BreadcrumbArea from "./BreadcrumbArea";
 class PageContent extends Component {
   render() {
     return (
-      <div id="page-content-wrapper">
-        <div className="container-fluid">
-          <h1>Simple Sidebar</h1>
+      <div className="col-md-11">
+        <div >
+          <BreadcrumbArea />
+          <h1>You Choose Admin Area</h1>
           <p>
-            This template has a responsive menu toggling system. The menu will
-            appear collapsed on smaller screens, and will appear non-collapsed
-            on larger screens. When toggled using the button below, the menu
-            will appear/disappear. On small screens, the page content will be
-            pushed off canvas.
+            Here entities can be created, edited, etc.
           </p>
-          <p>
-            Make sure to keep all page content within the{" "}
-            <code>#page-content-wrapper</code>.
-          </p>
-          <button
-            className="btn btn-secondary"
-            id="menu-toggle"
-            onClick={() => {
-              document.querySelector("#wrapper").classList.toggle("toggled");
-            }}
-          >
-            Toggle Menu
-          </button>
         </div>
       </div>
     );
