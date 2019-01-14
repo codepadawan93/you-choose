@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 class Login extends Component {
   ERROR_TIMEOUT = 5000;
@@ -16,10 +17,11 @@ class Login extends Component {
   }
   render() {
     return (
-      <div className="container">
+      <div>
+      <div className="container-fluid">
         <Navbar color="navbar-dark" type=""/>
         {this.showErrors()}
-        <div>
+        <div className="col-md-8 offset-md-2">
             <form>
                 <h2>Log in</h2>
                 <div className="form-group row">
@@ -34,10 +36,24 @@ class Login extends Component {
                     <input type="password" name="pass" className="form-control" value={this.state.userData.pass} onChange={e => this.updateUserData(e)}/>
                   </div>
                 </div>
-                <button id="btn_login" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>Login</button>
-                <Link className="btn btn-primary" to="/signup">Sign up</Link>
+                <div className="row">
+                  <div className="col-md-2">
+                    <button id="btn_login" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>Login</button>
+                  </div>
+                  <div className="col-md-2">
+                    <Link className="btn btn-secondary" to="/signup">Sign up</Link>
+                  </div>
+                </div>
             </form>
+            <hr />
+            <div className="row">
+            <div className="col-md-12">
+              <Link to="/" className="btn btn-primary"><i className="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</Link>
+            </div>
+            </div>
         </div>
+      </div>
+        <Footer/>
       </div>
     );
   }

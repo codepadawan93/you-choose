@@ -2,10 +2,22 @@
     font-family: Arial, Helvetica, sans-serif !important;
 }
 
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
 #mainNav {
     background: #fefefe;
 }
 
 #mainNav a {
     color: #222222 !important;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
 }

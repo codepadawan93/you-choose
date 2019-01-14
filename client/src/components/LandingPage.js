@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Subscribe from "./Subscribe";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const LandingPage = () => {
   return (
@@ -64,11 +65,11 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <footer className="bg-black small text-center text-white-50">
-        <div className="container">
-          Copyright &copy; YouChoose 2018-2019
-        </div>
-      </footer>
+      <div className="row">
+          <div className="col-md-12" style={{height: "179px"}}>
+          <Footer/>
+          </div>
+      </div>
       </div>
   );
 };

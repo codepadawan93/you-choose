@@ -5,6 +5,8 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Admin from "./components/Admin";
 import Error404 from "./components/Error404";
+import MovieList from "./components/MovieList";
+import MovieListDetail from "./components/MovieListDetail";
 
 class App extends Component {
   render() {
@@ -15,6 +17,8 @@ class App extends Component {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/lists" component={MovieList} />
+              <Route exact path="/lists/:id" component={MovieListDetail} />
               <Route path="/admin" component={Admin} />
               <Route component={Error404} />
           </Switch>

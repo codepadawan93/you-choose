@@ -7,6 +7,10 @@ import UserList from "./UserList";
 import RoleList from "./RoleList";
 import ListList from "./ListList";
 import Error404 from "./Error404";
+import UserForm from "./UserForm";
+import RoleForm from "./RoleForm";
+import ListForm from "./ListForm";
+
 
 class Admin extends Component {
     constructor(){
@@ -24,6 +28,11 @@ class Admin extends Component {
                     <Route exact path="/admin/users" component={UserList} />
                     <Route exact path="/admin/roles" component={RoleList} />
                     <Route exact path="/admin/lists" component={ListList} />
+
+                    <Route path="/admin/users/:id" component={UserForm} />
+                    <Route path="/admin/roles/:id" component={RoleForm} />
+                    <Route path="/admin/lists/:id" component={ListForm} />
+
                     <Route component={Error404} />
                 </Switch>
                 </div>

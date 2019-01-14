@@ -16,7 +16,7 @@ const Navbar = props => {
                     <Link className="nav-link js-scroll-trigger" to="/login">Log in</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link js-scroll-trigger" to="/#signup">Contact</Link>
+                    <Link className="nav-link js-scroll-trigger" to="/lists">See Lists</Link>
                 </li>
                 </ul>
             </div>

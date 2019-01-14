@@ -23,31 +23,35 @@ const models = require("./models/index");
 const routers = [
   {
     route: "/api/users",
+    pkColumn: "user_id",
     modelName: "User"
   },
   {
     route: "/api/roles",
+    pkColumn: "role_id",
     modelName: "Role"
   },
   {
     route: "/api/lists",
+    pkColumn: "list_id",
     modelName: "List"
   },
   {
     route: "/api/list_items",
+    pkColumn: "list_item_id",
     modelName: "ListItem"
   },
   {
     route: "/api/movies",
+    pkColumn: "movie_id",
     modelName: "Movie"
   }
 ];
 
 routers.forEach(routerObject => {
   // Build the necessary column name
-  const { modelName, route } = routerObject;
-  const pkColumn = modelName.toLowerCase() + "_id";
-
+  const { modelName, route, pkColumn } = routerObject;
+  
   const router = express.Router();
   // A GET to the root of a resource returns a list of that resource
   router.get("/", function(req, res) {
@@ -94,7 +98,7 @@ routers.forEach(routerObject => {
     models[modelName]
       .findOne({ where: { [pkColumn]: req.params.id } })
       .then(modelInstance => {
-        if (!data) {
+        if (!modelInstance) {
           res.json(404, { data: [], success: false });
           return;
         }
@@ -109,13 +113,15 @@ routers.forEach(routerObject => {
   router.delete("/:id", (req, res) => {
     models[modelName]
       .findOne({ where: { [pkColumn]: req.params.id } })
-      .delete()
       .then(data => {
         if (!data) {
           res.json(404, { data: [], success: false });
           return;
         }
-        res.json({ data: [modelInstance], success: true });
+        console.log("destroyed");
+        data
+          .destroy()
+          .then(() => res.json({ data: [data], success: true }));
       })
       .catch(err => res.json({ err, success: false }));
   });
