@@ -7,7 +7,7 @@ class Sidebar extends Component {
         <div id="sidebar-wrapper">
           <ul className="sidebar-nav">
             <li className="sidebar-brand">
-              <Link to="/admin/">Start Bootstrap</Link>
+              <Link to="/admin/">You Choose</Link>
             </li>
             <li>
               <Link to="/admin/">Dashboard</Link>
@@ -20,6 +20,9 @@ class Sidebar extends Component {
             </li>
             <li>
               <Link to="/admin/lists">Lists</Link>
+            </li>
+            <li>
+              <Link to="/">Back</Link>
             </li>
           </ul>
         </div>

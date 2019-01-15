@@ -31,6 +31,7 @@ module.exports = {
         required: true,
         allowNull: false
       },
+      session_id: Sequelize.STRING,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

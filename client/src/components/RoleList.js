@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import BreadcrumbArea from "./BreadcrumbArea";
 import FloatingActionButton from "./FloatingActionButton";
 import { Link } from "react-router-dom";
+import { request, methods } from "../helpers/HttpHelper";
 
 class RoleList extends Component {
-  BASE_URL = "/api/roles";
+  BASE_URL = "/api/roles/";
   ERROR_TIMEOUT = 5000;
   constructor(props){
     super(props);
@@ -75,7 +76,10 @@ class RoleList extends Component {
 
   handleDeleteItem = id => {
     if(window.confirm(`Are you sure you want to delete role ${id}?`)){
-      console.log("deleted");
+      this.setState({ 
+        items: this.state.items.filter(item => item.role_id !== id) 
+      });
+      request(this.BASE_URL + id, methods.DELETE);
     }
   }
 

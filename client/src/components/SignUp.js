@@ -1,13 +1,18 @@
 import React, { Component } from "react";
-import {Link} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { request, methods } from "../helpers/HttpHelper";
+import { getCookie, deleteCookie } from "../helpers/CookieHelper";
 
 class SignUp extends Component {
+  AUTH_URL = "/api/authenticate/";
+  BASE_URL = "/api/users/";
   ERROR_TIMEOUT = 5000;
   constructor(){
     super();
     this.state = {
+      currentUser: null,
       userData: {
         userName: "",
         pass: "",
@@ -15,16 +20,24 @@ class SignUp extends Component {
         firstName: "",
         lastName: ""
       },
-      errors: []
+      errors: [],
+      messages: [],
+      submitted: false,
+      shouldRedirect: false,
+      redirectTo: "/"
     };
   }
   render() {
     return (
       <div>
+        {
+          this.state.shouldRedirect ? <Redirect to={this.state.redirectTo}/> : null
+        }
       <div className="container-fluid">
-        <Navbar color="navbar-dark" type=""/>
-        {this.showErrors()}
+        <Navbar color="navbar-dark" type="" currentUser={this.state.currentUser} handleLogout={this.handleLogout}/>
       <div className="col-md-8 offset-md-2"> 
+        {this.showErrors()}
+        {this.showMessages()}
         <h2>Sign up</h2>
         <form>
           <div className="form-group row">
@@ -59,10 +72,10 @@ class SignUp extends Component {
           </div>
           <div className="row">
             <div className="col-md-2">
-              <button className="btn btn-primary" onClick={ e => this.handleSubmit(e)}>Submit</button>
+              <Link className="btn btn-secondary" to="/login">Log in</Link>
             </div>
             <div className="col-md-2">
-              <Link className="btn btn-secondary" to="/login">Log in</Link>
+              <button className="btn btn-primary" onClick={ e => this.handleSubmit(e)}>Submit</button>
             </div>
           </div>
         </form>
@@ -79,9 +92,36 @@ class SignUp extends Component {
     );
   }
 
-  handleSubmit(e){
+  handleLogout = () => {
+    deleteCookie("api_token");
+    this.setState({ currentUser: null });
+  };
+
+  componentWillMount = async () => {
+    const apiToken = getCookie("api_token");
+    if(apiToken !== ""){
+      const res = await fetch(this.AUTH_URL + encodeURIComponent(apiToken));
+      const json = await res.json();
+      if(json.success){
+        this.setState({ ...this.state, currentUser: json.data, shouldRedirect: true});
+      }
+    }
+  }
+
+  handleSubmit = async e => {
     e.preventDefault();
+    if(this.state.submitted) return;
     if(this.validateUser()){
+      const {userName, pass, firstName, lastName} = this.state.userData;
+      const res = await request(this.BASE_URL, methods.POST, { user_name : userName, password: pass, first_name: firstName, last_name: lastName, role_id: 1});
+      const json = await res.json();
+      if(json.success){
+        this.setMessages(["User successfully added!"]);
+        this.setState({submitted: true});
+        setTimeout(() => this.setState({ ...this.state, shouldRedirect:true, redirectTo: "/login"}), 1000);
+      }else{
+        this.setErrors(json.err.errors.map(o => o.message));
+      }
     }
   }
 
@@ -114,6 +154,25 @@ class SignUp extends Component {
     this.setState({
       userData: {...this.state.userData, [e.target.name] : e.target.value}}
     );
+  }
+
+  setMessages = messages => {
+    this.setState({ messages });
+    setTimeout(() => this.resetMessages(), this.ERROR_TIMEOUT);
+  }
+
+  resetMessages = () => {
+    this.setState({ messages: []});
+  }
+
+  showMessages = () => {
+    return this.state.messages.map((message, itemKey) => {
+      return (
+        <div className="alert alert-success" role="alert" key={itemKey}>
+          {message}
+        </div>
+      );
+    })
   }
 
   setErrors = errors => {

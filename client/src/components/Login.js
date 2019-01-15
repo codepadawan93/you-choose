@@ -1,27 +1,39 @@
 import React, { Component } from "react";
-import {Link} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { request, methods } from "../helpers/HttpHelper";
+import { getCookie, deleteCookie } from "../helpers/CookieHelper";
 
 class Login extends Component {
+  AUTH_URL = "/api/authenticate/";
   ERROR_TIMEOUT = 5000;
   constructor(){
     super();
     this.state = {
+      currentUser: null,
       userData: {
         userName: "",
         pass: ""
       }, 
-      errors: []
+      errors: [],
+      messages: [],
+      shouldRedirect: false,
+      submitted: false,
+      redirectTo: "/"
     };
   }
+
   render() {
     return (
       <div>
+        {
+          this.state.shouldRedirect ? <Redirect to={this.state.redirectTo}/> : null
+        }
       <div className="container-fluid">
-        <Navbar color="navbar-dark" type=""/>
-        {this.showErrors()}
+        <Navbar color="navbar-dark" type="" currentUser={this.state.currentUser} handleLogout={this.handleLogout}/>
         <div className="col-md-8 offset-md-2">
+            {this.showErrors()}
             <form>
                 <h2>Log in</h2>
                 <div className="form-group row">
@@ -38,10 +50,10 @@ class Login extends Component {
                 </div>
                 <div className="row">
                   <div className="col-md-2">
-                    <button id="btn_login" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>Login</button>
+                    <Link className="btn btn-secondary" to="/signup">Sign up</Link>
                   </div>
                   <div className="col-md-2">
-                    <Link className="btn btn-secondary" to="/signup">Sign up</Link>
+                    <button id="btn_login" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>Login</button>
                   </div>
                 </div>
             </form>
@@ -58,9 +70,33 @@ class Login extends Component {
     );
   }
 
-  handleSubmit(e){
+  handleLogout = () => {
+    deleteCookie("api_token");
+    this.setState({ currentUser: null });
+  };
+
+  componentWillMount = async () => {
+    const apiToken = getCookie("api_token");
+    if(apiToken !== ""){
+      const res = await fetch(this.AUTH_URL + encodeURIComponent(apiToken));
+      const json = await res.json();
+      if(json.success){
+        this.setState({ ...this.state, currentUser: json.data, shouldRedirect: true});
+      }
+    }
+  }
+
+  handleSubmit = async e => {
     e.preventDefault();
     if(this.validateUser()){
+        const {userName, pass} = this.state.userData;
+        const res = await request(this.AUTH_URL, methods.POST, { user_name : userName, password: pass });
+        const json = await res.json();
+        if(json.success){
+          this.setState({ shouldRedirect: true });
+        } else if (res.status === 401 || res.status === 404){
+          this.setErrors(["Unauthorized: wrong username or password"]);
+        }
     }
   }
 

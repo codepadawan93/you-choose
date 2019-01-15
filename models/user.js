@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         required: true,
         allowNull: false
-      }
+      },
+      session_id: DataTypes.STRING
     },
     {}
   );

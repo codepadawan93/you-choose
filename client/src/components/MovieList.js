@@ -1,26 +1,28 @@
 import React, {Component} from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { getCookie, deleteCookie } from "../helpers/CookieHelper";
 
 class MovieList extends Component {
+    AUTH_URL = "/api/authenticate/";
     BASE_URL = "/api/lists";
     ERROR_TIMEOUT = 5000;
     constructor(props){
         super(props);
         this.props = props;
         this.state = {
-        items: [],
-        errors: [],
-        messages: []
+            currentUser: null,
+            items: [],
+            errors: [],
+            messages: []
         };
     }
     render() {
         return (
             <div>
             <div className="container-fluid">
-                <Navbar color="navbar-dark" type=""/>
+                <Navbar color="navbar-dark" type="" currentUser={this.state.currentUser} handleLogout={this.handleLogout}/>
                 <table className="table table-striped">
                     <thead>
                     <tr>
@@ -45,6 +47,22 @@ class MovieList extends Component {
             </div>
         );
     }
+
+    handleLogout = () => {
+        deleteCookie("api_token");
+        this.setState({ currentUser: null });
+    };
+
+    componentWillMount = async () => {
+        const apiToken = getCookie("api_token");
+        if(apiToken !== ""){
+          const res = await fetch(this.AUTH_URL + encodeURIComponent(apiToken));
+          const json = await res.json();
+          if(json.success){
+            this.setState({ ...this.state, currentUser: json.data, shouldRedirect: true});
+          }
+        }
+      }
 
     componentDidMount = async () => {
         const res = await fetch(this.BASE_URL);

@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import BreadcrumbArea from "./BreadcrumbArea";
 import FloatingActionButton from "./FloatingActionButton";
 import {Link} from "react-router-dom";
+import { request, methods } from  "../helpers/HttpHelper";
 
 class UserList extends Component {
-  BASE_URL = "/api/users";
+  BASE_URL = "/api/users/";
   ERROR_TIMEOUT = 5000;
   constructor(props){
     super(props);
@@ -76,6 +77,15 @@ class UserList extends Component {
         </tr>
       );
     });
+  }
+
+  handleDeleteItem = id => {
+    if(window.confirm(`Are you sure you want to delete item ${id}`)){
+      this.setState({ 
+        items: this.state.items.filter(item => item.user_id !== id) 
+      });
+      request(this.BASE_URL + id, methods.DELETE);
+    };
   }
 
   setErrors = errors => {

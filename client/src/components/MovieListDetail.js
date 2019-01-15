@@ -2,10 +2,11 @@ import React, {Component} from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import defaultImage from "../img/bg-masthead.jpg";
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { getCookie, deleteCookie} from "../helpers/CookieHelper";
 
 class MovieListDetail extends Component {
+    AUTH_URL = "/api/authenticate/";
     BASE_URL = "/api/list_items/";
     MOVIE_BASE_URL = "/api/movies/";
     ERROR_TIMEOUT = 5000;
@@ -16,6 +17,7 @@ class MovieListDetail extends Component {
         super(props);
         this.props = props;
         this.state = {
+            currentUser: null,
             id: this.props.match.params.id,
             items: [],
             errors: [],
@@ -25,7 +27,11 @@ class MovieListDetail extends Component {
     render() {
         return (
                 <div className="container-fluid">
-                    <Navbar color="navbar-dark" type=""/>
+                    <Navbar 
+                        color="navbar-dark" 
+                        type="" 
+                        currentUser={this.state.currentUser}
+                        handleLogout={this.handleLogout}/>
                     <div className="row">
                         { this.renderItems() }
                     </div>
@@ -43,6 +49,22 @@ class MovieListDetail extends Component {
                 </div>
         );
     }
+
+    handleLogout = () => {
+        deleteCookie("api_token");
+        this.setState({ currentUser: null });
+    };
+
+    componentWillMount = async () => {
+        const apiToken = getCookie("api_token");
+        if(apiToken !== ""){
+          const res = await fetch(this.AUTH_URL + encodeURIComponent(apiToken));
+          const json = await res.json();
+          if(json.success){
+            this.setState({ ...this.state, currentUser: json.data });
+          }
+        }
+      }
 
     componentDidMount = async () => {
         const res = await fetch(this.BASE_URL);

@@ -10,7 +10,7 @@ const bcrypt = require("bcrypt");
 const server = express();
 const port = process.env.PORT || 8080;
 
-// Use the body parser middleware
+// Use the body parser and cookie middleware
 server.use(bodyParser.json());
 
 // Serve static assets from ./client
@@ -74,10 +74,27 @@ routers.forEach(routerObject => {
       );
       modelInstance.password = hash;
     }
-    modelInstance
-      .save()
-      .then(data => res.json({ data: [modelInstance], success: true }))
-      .catch(err => res.json({ err, success: false }));
+    if (modelName === "Movie") {
+      // Check if we don't have this movie yet. If we do serve that
+      models[modelName]
+        .findOne({ where : { tmdb_guid : req.body.tmdb_guid }})
+        .then(data => {
+          if(data){
+            res.json({ data: [data], success: true })
+          } else {
+            modelInstance
+              .save()
+              .then(data => res.json({ data: [modelInstance], success: true }))
+              .catch(err => res.json({ err, success: false }));
+          }
+        })
+        .catch(e => res.json({ e, success: false }));
+    } else {
+      modelInstance
+        .save()
+        .then(data => res.json({ data: [modelInstance], success: true }))
+        .catch(err => res.json({ err, success: false }));
+    }
   });
 
   // We specify a param in our path for the GET of a specific object
@@ -118,7 +135,12 @@ routers.forEach(routerObject => {
           res.json(404, { data: [], success: false });
           return;
         }
-        console.log("destroyed");
+        
+        if (modelName === "List") {
+          // Delete children
+          models.ListItem
+            .destroy({where: {list_id : req.params.id}});
+        }
         data
           .destroy()
           .then(() => res.json({ data: [data], success: true }));
@@ -128,6 +150,55 @@ routers.forEach(routerObject => {
 
   // Attach the routers for their respective paths
   server.use(route, router);
+});
+
+// Allow auth at this endpoint
+server.post("/api/authenticate", (req, res) => {
+  const { user_name, password } = req.body;
+  if(user_name && password){
+    const { User } = models;
+    User
+      .findOne({ where: {user_name: user_name}})
+      .then(data => {
+        if(data){
+          bcrypt.compare(password, data.password).then(match => {
+            if(match){
+              // Not secure, not good, not anything.. but works? sure 
+              const sessionId = bcrypt.hashSync(data.user_id + data.user_name + data.role + new Date().getTime(), 0);
+              data.session_id = sessionId;
+              data.save();
+              res
+                .cookie('api_token', sessionId)
+                .json(200, {success: true, message: "Successfully logged in"});
+            } else {
+              res.json(401, { success: false, message: "Unauthorized" });
+            }
+          });
+        }else{
+          res.json(404, { success: false, message: "User not found" });
+        }
+      })
+      .catch(e => res.json(500, { success: false, message:e.toString() }));
+  } else {
+    res.json(400, {success : false, message:"Bad request"});
+  }
+});
+
+// Request auth here
+server.get("/api/authenticate/:sessionId", (req, res) => {
+  const { sessionId } = req.params;
+  const { User } = models;
+  User
+    .findOne({ where: { session_id: sessionId } })
+    .then(data => {
+      if(data){
+        const {user_id, user_name, firstname, lastname, role_id} = data;
+        res.json(200, { success: true, data: {user_id, user_name, firstname, lastname, role_id} });
+      } else {
+        res.json(301, { success: false, goto: "/api/authenticate", method: "POST" });
+      }
+    })
+    .catch(e => res.json(500, {success : false, message:"Internal server error"}));
 });
 
 // Reroute everything else to React app in client

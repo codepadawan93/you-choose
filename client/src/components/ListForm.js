@@ -352,7 +352,8 @@ class ListForm extends Component {
   handleDelete = e => {
     e.preventDefault();
     if(window.confirm(`Are you sure you want to delete list ${this.state.listData.id}?`)){
-
+      request(this.BASE_URL + this.state.listData.id, methods.DELETE);
+      this.setState({shouldRedirect:true});
     }
   }
 
