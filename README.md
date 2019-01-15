@@ -19,13 +19,19 @@ npm install
 ```bash
 npm run migrate
 ``` 
-This will set up all tables that the app needs.
+This will set up all tables that the app needs. Remember to also add the default admin role and user (user/pass: admin/changeasap):
+```bash
+npm run seed
+```
 
-4. Run app in development mode:
+4. Compile assets in ``` ./client``` by running ``` npm run build ```.
+
+5. Run app in development mode:
 ```bash
 npm run start-dev
 ```
-5. Navigate to [http://localhost:8080](http://localhost:8080) and share your movies with your friends!
+
+6. Navigate to [http://localhost:8080](http://localhost:8080) and share your movies with your friends!
 
 ## API Documentation
 ### Users

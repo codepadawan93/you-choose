@@ -8,6 +8,9 @@
     "start": "node index.js",
     "start-dev": "nodemon index.js",
     "migrate": "node_modules/.bin/sequelize db:migrate",
+    "unmigrate": "node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed": "node_modules/.bin/sequelize db:seed:all",
+    "unseed": "node_modules/.bin/sequelize db:seed:undo:all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
